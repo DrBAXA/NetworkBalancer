@@ -21,4 +21,9 @@ public class InitialTest {
         TestCase.assertEquals(Integer.MAX_VALUE, Initial.add(Integer.MIN_VALUE, -1));
     }
 
+    @Test
+    public void testAddToZero() throws Exception {
+        TestCase.assertEquals(0, Initial.add(1, -1));
+    }
+
 }
