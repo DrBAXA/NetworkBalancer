@@ -12,8 +12,13 @@ public class InitialTest {
     }
 
     @Test
-    public void testAddOverload() throws Exception {
+    public void testAddMaxOverload() throws Exception {
         TestCase.assertEquals(-1, Initial.add(Integer.MAX_VALUE, 1));
+    }
+
+    @Test
+    public void testAddMinOverload() throws Exception {
+        TestCase.assertEquals(0, Initial.add(Integer.MIN_VALUE, -1));
     }
 
 }
