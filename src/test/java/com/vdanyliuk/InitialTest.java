@@ -26,4 +26,9 @@ public class InitialTest {
         TestCase.assertEquals(0, Initial.add(1, -1));
     }
 
+    @Test
+    public void testAddToZero1() throws Exception {
+        TestCase.assertEquals(0, Initial.add(0, 0));
+    }
+
 }
