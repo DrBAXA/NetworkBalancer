@@ -37,6 +37,11 @@ public class EdgeTest {
         new Edge(null, vertex2) {};
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void constructorTestException4() {
+        new Edge(vertex1, vertex1) {};
+    }
+
     @Test
     public void getVerticesTest() {
         Edge testEdge = new Edge(vertex1, vertex2) {};
