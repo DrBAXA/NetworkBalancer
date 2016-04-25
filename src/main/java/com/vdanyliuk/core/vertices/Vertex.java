@@ -9,12 +9,12 @@ public interface Vertex {
      * Represent incoming amount of energy that was transferred through this vertex
      * @return incoming amount of energy in kW
      */
-    Long getIncoming();
+    long getIncoming();
 
     /**
      * Represent outgoing amount of energy that was transferred through this vertex
      * @return outgoing amount of energy in kW
      */
-    Long getOutgoing();
+    long getOutgoing();
 
 }
