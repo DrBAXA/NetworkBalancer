@@ -8,6 +8,11 @@
     <artifactId>network-balancer</artifactId>
     <version>0.0.1</version>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
+
     <dependencies>
 
         <dependency>
@@ -59,7 +64,7 @@
     </dependencies>
 
     <build>
-        <sourceDirectory>src/main/java</sourceDirectory>
+        <sourceDirectory>${project.build.directory}/generated-sources/delombok</sourceDirectory>
         <testSourceDirectory>src/test/java</testSourceDirectory>
         <plugins>
 
@@ -76,8 +81,17 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>cobertura-maven-plugin</artifactId>
-                <version>2.5.1</version>
+                <version>2.7</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.ow2.asm</groupId>
+                        <artifactId>asm</artifactId>
+                        <version>5.0.3</version>
+                    </dependency>
+                </dependencies>
                 <configuration>
+                    <instrumentation>
+                    </instrumentation>
                     <formats>
                         <format>xml</format>
                     </formats>
@@ -96,13 +110,17 @@
             <plugin>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok-maven-plugin</artifactId>
-                <version>1.16.8.0</version>
+                <version>1.16.6.1</version>
                 <executions>
                     <execution>
                         <phase>generate-sources</phase>
                         <goals>
                             <goal>delombok</goal>
                         </goals>
+                        <configuration>
+                            <encoding>utf8</encoding>
+                            <sourceDirectory>src/main/java</sourceDirectory>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
