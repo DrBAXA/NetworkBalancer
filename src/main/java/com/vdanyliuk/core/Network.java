@@ -1,6 +1,8 @@
 package com.vdanyliuk.core;
 
 import com.vdanyliuk.core.edges.Edge;
+import com.vdanyliuk.core.edges.ElectricNetworkEdge;
+import com.vdanyliuk.core.edges.LineData;
 import com.vdanyliuk.core.vertices.Vertex;
 import lombok.Getter;
 import lombok.NonNull;
@@ -58,5 +60,9 @@ public class Network {
         return networkGraph.addEdge(edge.getVertex1(), edge.getVertex2(), edge);
     }
 
+    public boolean addEdge(@NonNull Vertex vertex1, @NonNull Vertex vertex2, LineData lineData) {
+        Edge edge = new ElectricNetworkEdge(vertex1, vertex2, lineData);
+        return addEdge(edge);
+    }
 
 }

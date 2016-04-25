@@ -33,4 +33,18 @@ public class ElectricNetworkEdgeTest {
         ElectricNetworkEdge electricNetworkEdge = new ElectricNetworkEdge(vertex1, vertex2, lineData) {};
         assertEquals(lineData, electricNetworkEdge.getLineData());
     }
+
+    @Test
+    public void testLine() {
+        ElectricNetworkEdge edge = ElectricNetworkEdge.line(vertex1, vertex2, 1L, 1L);
+        assertEquals(1, edge.getLineData().getLineLength());
+        assertEquals(1, edge.getLineData().getSection());
+    }
+
+    @Test
+    public void testZeroConnection() {
+        ElectricNetworkEdge edge = ElectricNetworkEdge.zeroConnection(vertex1, vertex2);
+        assertEquals(0, edge.getLineData().getLineLength());
+        assertEquals(Long.MAX_VALUE, edge.getLineData().getSection());
+    }
 }

@@ -1,6 +1,7 @@
 package com.vdanyliuk.core.edges;
 
 import com.vdanyliuk.core.vertices.Vertex;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.util.HashSet;
@@ -10,6 +11,7 @@ import java.util.Set;
  * Abstract edge that can contain two vertices
  */
 @Getter
+@EqualsAndHashCode
 public abstract class Edge {
     private final Vertex vertex1;
     private final Vertex vertex2;

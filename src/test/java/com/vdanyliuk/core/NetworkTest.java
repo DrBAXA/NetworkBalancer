@@ -1,6 +1,7 @@
 package com.vdanyliuk.core;
 
 import com.vdanyliuk.core.edges.Edge;
+import com.vdanyliuk.core.edges.LineData;
 import com.vdanyliuk.core.vertices.Vertex;
 import org.jgrapht.Graph;
 import org.junit.Before;
@@ -10,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import static junit.framework.TestCase.assertTrue;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -23,6 +25,8 @@ public class NetworkTest {
     private Vertex vertex2;
     @Mock
     private Graph<Vertex, Edge> graph;
+    @Mock
+    private LineData lineData;
 
     private Edge edge;
     private Network network;
@@ -32,7 +36,7 @@ public class NetworkTest {
         network = new Network(graph);
         edge = new Edge(vertex1, vertex2) {};
 
-        when(graph.addEdge(vertex1, vertex2, edge)).thenReturn(true);
+        when(graph.addEdge(any(), any(), any())).thenReturn(true);
     }
 
     @Test(expected = NullPointerException.class)
@@ -60,5 +64,13 @@ public class NetworkTest {
         verify(graph, times(0)).addVertex(vertex1);
         verify(graph, times(0)).addVertex(vertex2);
         verify(graph, times(0)).addEdge(vertex1, vertex2, edge);
+    }
+
+    @Test
+    public void testAddEdgeByVertices() throws Exception {
+        assertTrue(network.addEdge(vertex1, vertex2, lineData));
+        verify(graph, times(1)).addVertex(vertex1);
+        verify(graph, times(1)).addVertex(vertex2);
+        verify(graph, times(1)).addEdge(any(), any(), any());
     }
 }
