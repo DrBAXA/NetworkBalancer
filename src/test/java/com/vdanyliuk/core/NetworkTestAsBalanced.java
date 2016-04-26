@@ -89,4 +89,9 @@ public class NetworkTestAsBalanced {
     public void testGetOutsideOutgoingVertices() throws Exception {
         assertThat(network.getOutsideOutgoingVertices(), containsInAnyOrder(vertex2, vertex3));
     }
+
+    @Test
+    public void testGetBalance() throws Exception {
+        assertEquals(-6.666667f, network.getBalance(), 0.001);
+    }
 }

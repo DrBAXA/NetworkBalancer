@@ -70,13 +70,11 @@ public class Network implements Balanced {
      * So Aplus energy will be energy that is going from {@param vertex1} to {@param vertex2}
      * and vice versa with Aminus
      *
-     * @param vertex1 source vertex
-     * @param vertex2 consumer vertex
+     * @param vertex1  source vertex
+     * @param vertex2  consumer vertex
      * @param lineData parameters of line that connects this vertices
-     *
      * @return true if network did not contain such edge before
-     *
-     * @throws NullPointerException if any of the specified vertices or line data is <code>null</code>.
+     * @throws NullPointerException     if any of the specified vertices or line data is <code>null</code>.
      * @throws IllegalArgumentException if  specified vertices  is equal.
      */
     public boolean addEdge(@NonNull Vertex vertex1, @NonNull Vertex vertex2, @NonNull LineData lineData) {
@@ -130,5 +128,15 @@ public class Network implements Balanced {
     public long getOutgoing() {
         return NetworkUtils.getIncomingAmount(getOutsideIncomingVertices()) +
                 NetworkUtils.getOutgoingAmount(getOutsideOutgoingVertices());
+    }
+
+    /**
+     * Define how well balanced is this network
+     * Return percentage value that represent unbalanced amount divided by incoming amount
+     *
+     * @return (unbalanced/incoming)*100%
+     */
+    public float getBalance() {
+        return ((float) (getIncoming() - getOutgoing())) / getIncoming() * 100;
     }
 }
