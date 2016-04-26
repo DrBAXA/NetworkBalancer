@@ -10,6 +10,7 @@ import com.vdanyliuk.core.edges.Edge;
 import com.vdanyliuk.core.edges.LineData;
 import com.vdanyliuk.core.vertices.Vertex;
 
+import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.times;
@@ -72,5 +73,15 @@ public class NetworkTest {
         verify(graph, times(1)).addVertex(vertex1);
         verify(graph, times(1)).addVertex(vertex2);
         verify(graph, times(1)).addEdge(any(), any(), any());
+    }
+
+    @Test
+    public void testContainsVertex() throws Exception {
+        when(graph.containsVertex(vertex1)).thenReturn(true);
+        when(graph.containsVertex(vertex2)).thenReturn(false);
+
+        network.addVertex(vertex1);
+        assertTrue(network.containsVertex(vertex1));
+        assertFalse(network.containsVertex(vertex2));
     }
 }

@@ -4,11 +4,17 @@ package com.vdanyliuk.core;
 import lombok.Getter;
 import lombok.NonNull;
 import org.jgrapht.DirectedGraph;
+import org.jgrapht.graph.DirectedSubgraph;
 import com.vdanyliuk.core.edges.Edge;
 import com.vdanyliuk.core.edges.ElectricNetworkEdge;
 import com.vdanyliuk.core.edges.LineData;
 import com.vdanyliuk.core.vertices.Vertex;
+import com.vdanyliuk.exceptions.VertexIsSelfBalancedException;
 
+import java.util.ArrayDeque;
+import java.util.Collection;
+import java.util.Deque;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -83,6 +89,16 @@ public class Network implements Balanced {
     }
 
     /**
+     * Check if this network contains specified vertex.
+     *
+     * @param vertex that needs to check if network contains
+     * @return true if this network contains specified vertex and false otherwise
+     */
+    public boolean containsVertex(Vertex vertex) {
+        return networkGraph.containsVertex(vertex);
+    }
+
+    /**
      * Get outside vertices that is connected as incoming
      * (i.e. energy is doing inside this network by default)
      *
@@ -138,5 +154,51 @@ public class Network implements Balanced {
      */
     public float getBalance() {
         return ((float) (getIncoming() - getOutgoing())) / getIncoming() * 100;
+    }
+
+    /**
+     * Get minimal sub network of this network that can be computed
+     * (i.e. all outside vertices has own incoming and outgoing values (is Counters) but not computed )
+     * and contains this vertex.
+     *
+     * @param vertex that should be in result network
+     * @return sub network of this network
+     * @throws VertexIsSelfBalancedException if specified vertex has own values(i.e. is Counter)
+     */
+    public Network getComputableSubNetwork(Vertex vertex) throws VertexIsSelfBalancedException {
+        if (!vertex.isComputed()) throw new VertexIsSelfBalancedException();
+
+        Deque<Vertex> verticesQueue = new ArrayDeque<>();
+        Set<Vertex> verticesSet = new HashSet<>();
+        Set<Edge> edgesSet = new HashSet<>();
+
+        verticesQueue.add(vertex);
+
+        while (!verticesQueue.isEmpty()) {
+            Vertex current = verticesQueue.poll();
+            verticesSet.add(current);
+            if (current.isComputed()) {
+                Collection<Vertex> neighbors = getNeighbors(current);
+                edgesSet.addAll(networkGraph.edgesOf(current));
+                verticesQueue.addAll(neighbors);
+            }
+        }
+
+        DirectedSubgraph subGraph = new DirectedSubgraph<>(networkGraph, verticesSet, edgesSet);
+        return new Network(subGraph);
+    }
+
+    protected Collection<Vertex> getNeighbors(Vertex vertex) {
+        Set<Vertex> result = new HashSet<>();
+
+        result.addAll(networkGraph.incomingEdgesOf(vertex).stream()
+                .map(Edge::getVertex1)
+                .collect(Collectors.toSet()));
+
+        result.addAll(networkGraph.outgoingEdgesOf(vertex).stream()
+                .map(Edge::getVertex2)
+                .collect(Collectors.toSet()));
+
+        return result;
     }
 }
