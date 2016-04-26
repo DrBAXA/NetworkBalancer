@@ -1,16 +1,24 @@
 package com.vdanyliuk.core.vertices;
 
+
 import lombok.Getter;
 import lombok.Setter;
+import org.jgrapht.DirectedGraph;
+import com.vdanyliuk.core.edges.Edge;
+
 
 public class ElectricNetworkBus implements Vertex {
 
-
-
+    private final DirectedGraph<Vertex, Edge> parent;
 
     @Getter
     @Setter
     private String name;
+
+    public ElectricNetworkBus(DirectedGraph<Vertex, Edge> parent, String name) {
+        this.parent = parent;
+        this.name = name;
+    }
 
     /**
      * Returns incoming electricity amount
@@ -20,7 +28,17 @@ public class ElectricNetworkBus implements Vertex {
      */
     @Override
     public long getIncoming() {
-        return 0;
+        long inputFromSources =  parent.incomingEdgesOf(this).stream()
+                .map(Edge::getVertex1)
+                .mapToLong(Vertex::getIncoming)
+                .sum();
+
+        long reverseFromConsumers = parent.outgoingEdgesOf(this).stream()
+                .map(Edge::getVertex2)
+                .mapToLong(Vertex::getOutgoing)
+                .sum();
+
+        return inputFromSources + reverseFromConsumers;
     }
 
     /**
@@ -31,6 +49,16 @@ public class ElectricNetworkBus implements Vertex {
      */
     @Override
     public long getOutgoing() {
-        return 0;
+        long outputToConsumers =  parent.outgoingEdgesOf(this).stream()
+                .map(Edge::getVertex2)
+                .mapToLong(Vertex::getIncoming)
+                .sum();
+
+        long reverseToSources = parent.incomingEdgesOf(this).stream()
+                .map(Edge::getVertex1)
+                .mapToLong(Vertex::getOutgoing)
+                .sum();
+
+        return outputToConsumers + reverseToSources;
     }
 }
