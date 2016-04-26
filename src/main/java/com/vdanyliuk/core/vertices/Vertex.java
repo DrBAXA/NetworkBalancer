@@ -1,9 +1,12 @@
 package com.vdanyliuk.core.vertices;
 
+
+import com.vdanyliuk.core.Balanced;
+
 /**
  * Abstract point element in network
  */
-public interface Vertex {
+public interface Vertex extends Balanced{
 
     /**
      * Define if incoming and outgoing data is computed
@@ -20,19 +23,5 @@ public interface Vertex {
     default boolean isComputed() {
         return true;
     }
-
-    /**
-     * Represent incoming amount of energy that was transferred through this vertex
-     *
-     * @return incoming amount of energy in kW
-     */
-    long getIncoming();
-
-    /**
-     * Represent outgoing amount of energy that was transferred through this vertex
-     *
-     * @return outgoing amount of energy in kW
-     */
-    long getOutgoing();
 
 }
