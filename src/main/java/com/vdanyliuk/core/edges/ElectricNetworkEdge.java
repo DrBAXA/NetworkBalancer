@@ -1,8 +1,9 @@
 package com.vdanyliuk.core.edges;
 
-import com.vdanyliuk.core.vertices.Vertex;
+import com.sun.istack.internal.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import com.vdanyliuk.core.vertices.Vertex;
 
 @Getter
 @EqualsAndHashCode(callSuper = true)
@@ -12,9 +13,8 @@ public class ElectricNetworkEdge extends Edge{
 
     private final LineData lineData;
 
-    public ElectricNetworkEdge(Vertex vertex1, Vertex vertex2, LineData lineData) {
+    public ElectricNetworkEdge(@NotNull Vertex vertex1, @NotNull Vertex vertex2, @NotNull LineData lineData) {
         super(vertex1, vertex2);
-        if(lineData == null) throw new IllegalArgumentException("Line data can't be null");
         this.lineData = lineData;
     }
 

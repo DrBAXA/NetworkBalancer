@@ -1,12 +1,12 @@
 package com.vdanyliuk.core;
 
+import lombok.Getter;
+import lombok.NonNull;
+import org.jgrapht.Graph;
 import com.vdanyliuk.core.edges.Edge;
 import com.vdanyliuk.core.edges.ElectricNetworkEdge;
 import com.vdanyliuk.core.edges.LineData;
 import com.vdanyliuk.core.vertices.Vertex;
-import lombok.Getter;
-import lombok.NonNull;
-import org.jgrapht.Graph;
 
 /**
  * Represents electric network graph.
@@ -60,9 +60,25 @@ public class Network {
         return networkGraph.addEdge(edge.getVertex1(), edge.getVertex2(), edge);
     }
 
-    public boolean addEdge(@NonNull Vertex vertex1, @NonNull Vertex vertex2, LineData lineData) {
+    /**
+     * Add edge (line or just zero connection) between this two specified vertices.
+     * In such way that first vertex will be source and second consumer.
+     * So Aplus energy will be energy that is going from {@param vertex1} to {@param vertex2}
+     * and vice versa with Aminus
+     *
+     * @param vertex1 source vertex
+     * @param vertex2 consumer vertex
+     * @param lineData parameters of line that connects this vertices
+     *
+     * @return true if network did not contain such edge before
+     *
+     * @throws NullPointerException if any of the specified vertices or line data is <code>null</code>.
+     * @throws IllegalArgumentException if  specified vertices  is equal.
+     */
+    public boolean addEdge(@NonNull Vertex vertex1, @NonNull Vertex vertex2, @NonNull LineData lineData) {
         Edge edge = new ElectricNetworkEdge(vertex1, vertex2, lineData);
         return addEdge(edge);
     }
+
 
 }

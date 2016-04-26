@@ -1,10 +1,10 @@
 package com.vdanyliuk.core.edges;
 
-import com.vdanyliuk.core.vertices.Vertex;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import com.vdanyliuk.core.vertices.Vertex;
 
 import static junit.framework.TestCase.assertEquals;
 
@@ -23,7 +23,7 @@ public class ElectricNetworkEdgeTest {
         new ElectricNetworkEdge(vertex1, vertex2, lineData){};
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = NullPointerException.class)
     public void constructorTest1() {
         new ElectricNetworkEdge(vertex1, vertex2, null){};
     }
