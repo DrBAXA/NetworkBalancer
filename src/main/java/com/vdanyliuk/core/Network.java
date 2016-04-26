@@ -1,21 +1,25 @@
 package com.vdanyliuk.core;
 
+
 import lombok.Getter;
 import lombok.NonNull;
-import org.jgrapht.Graph;
+import org.jgrapht.DirectedGraph;
 import com.vdanyliuk.core.edges.Edge;
 import com.vdanyliuk.core.edges.ElectricNetworkEdge;
 import com.vdanyliuk.core.edges.LineData;
 import com.vdanyliuk.core.vertices.Vertex;
+
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Represents electric network graph.
  * Base model for this application.
  */
 @Getter
-public class Network {
+public class Network implements Balanced {
 
-    private final Graph<Vertex, Edge> networkGraph;
+    private final DirectedGraph<Vertex, Edge> networkGraph;
 
     /**
      * Create network model based on {@param networkGraph}
@@ -23,7 +27,7 @@ public class Network {
      * @param networkGraph graph that represents this network
      * @throws NullPointerException if the specified graph is <code>null</code>.
      */
-    public Network(Graph<Vertex, Edge> networkGraph) {
+    public Network(DirectedGraph<Vertex, Edge> networkGraph) {
         if (networkGraph == null) throw new NullPointerException("Graph can't be null.");
         this.networkGraph = networkGraph;
     }
@@ -80,5 +84,51 @@ public class Network {
         return addEdge(edge);
     }
 
+    /**
+     * Get outside vertices that is connected as incoming
+     * (i.e. energy is doing inside this network by default)
+     *
+     * @return set of vertices
+     */
+    public Set<Vertex> getOutsideIncomingVertices() {
+        return networkGraph.vertexSet().stream()
+                .filter(v -> networkGraph.outgoingEdgesOf(v).size() == 1)
+                .filter(v -> networkGraph.incomingEdgesOf(v).size() == 0)
+                .collect(Collectors.toSet());
+    }
 
+    /**
+     * Get outside vertices that is connected as outgoing
+     * (i.e. energy is doing outside this network by default)
+     *
+     * @return set of vertices
+     */
+    public Set<Vertex> getOutsideOutgoingVertices() {
+        return networkGraph.vertexSet().stream()
+                .filter(v -> networkGraph.outgoingEdgesOf(v).size() == 0)
+                .filter(v -> networkGraph.incomingEdgesOf(v).size() == 1)
+                .collect(Collectors.toSet());
+    }
+
+    /**
+     * Get all energy that was transferred inside into this network
+     *
+     * @return amount of energy in kW
+     */
+    @Override
+    public long getIncoming() {
+        return NetworkUtils.getOutgoingAmount(getOutsideIncomingVertices()) +
+                NetworkUtils.getIncomingAmount(getOutsideOutgoingVertices());
+    }
+
+    /**
+     * Get all energy that was transferred outside from this network
+     *
+     * @return amount of energy in kW
+     */
+    @Override
+    public long getOutgoing() {
+        return NetworkUtils.getIncomingAmount(getOutsideIncomingVertices()) +
+                NetworkUtils.getOutgoingAmount(getOutsideOutgoingVertices());
+    }
 }

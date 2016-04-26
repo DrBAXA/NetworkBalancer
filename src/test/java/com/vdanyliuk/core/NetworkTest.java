@@ -1,14 +1,14 @@
 package com.vdanyliuk.core;
 
-import com.vdanyliuk.core.edges.Edge;
-import com.vdanyliuk.core.edges.LineData;
-import com.vdanyliuk.core.vertices.Vertex;
-import org.jgrapht.Graph;
+import org.jgrapht.DirectedGraph;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import com.vdanyliuk.core.edges.Edge;
+import com.vdanyliuk.core.edges.LineData;
+import com.vdanyliuk.core.vertices.Vertex;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.mockito.Matchers.any;
@@ -24,7 +24,7 @@ public class NetworkTest {
     @Mock
     private Vertex vertex2;
     @Mock
-    private Graph<Vertex, Edge> graph;
+    private DirectedGraph<Vertex, Edge> graph;
     @Mock
     private LineData lineData;
 
