@@ -150,7 +150,7 @@ public class Network implements Balanced {
      * Define how well balanced is this network
      * Return percentage value that represent unbalanced amount divided by incoming amount
      *
-     * @return (unbalanced/incoming)*100%
+     * @return <tt>(unbalanced&frasl;incoming)*100 %</tt>
      */
     public float getBalance() {
         return ((float) (getIncoming() - getOutgoing())) / getIncoming() * 100;
@@ -181,9 +181,10 @@ public class Network implements Balanced {
             Vertex current = verticesQueue.poll();
             verticesSet.add(current);
             if (current.isComputed()) {
-                Collection<Vertex> neighbors = getNeighbors(current);
+                Collection<Vertex> unvisitedNeighbors = getNeighbors(current);
+                unvisitedNeighbors.removeAll(verticesSet);
                 edgesSet.addAll(networkGraph.edgesOf(current));
-                verticesQueue.addAll(neighbors);
+                verticesQueue.addAll(unvisitedNeighbors);
             }
         }
 

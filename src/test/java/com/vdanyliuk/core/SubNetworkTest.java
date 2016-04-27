@@ -115,6 +115,27 @@ public class SubNetworkTest {
 
     }
 
+    @Test
+    public void testSubNetworkIsAllNetwork() throws Exception {
+        when(vertex1.isComputed()).thenReturn(false);
+        when(vertex2.isComputed()).thenReturn(true);
+        when(vertex3.isComputed()).thenReturn(true);
+        when(vertex4.isComputed()).thenReturn(true);
+        when(vertex5.isComputed()).thenReturn(true);
+        when(vertex6.isComputed()).thenReturn(false);
+        when(vertex7.isComputed()).thenReturn(false);
+
+        Network subNetwork = network.getComputableSubNetwork(vertex2);
+
+        assertTrue(subNetwork.containsVertex(vertex1));
+        assertTrue(subNetwork.containsVertex(vertex2));
+        assertTrue(subNetwork.containsVertex(vertex3));
+        assertTrue(subNetwork.containsVertex(vertex4));
+        assertTrue(subNetwork.containsVertex(vertex5));
+        assertTrue(subNetwork.containsVertex(vertex6));
+        assertTrue(subNetwork.containsVertex(vertex7));
+    }
+
     @Test(expected = VertexIsSelfBalancedException.class)
     public void testGetSubNetwork1() throws Exception {
         network.getComputableSubNetwork(vertex1);
