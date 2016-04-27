@@ -97,6 +97,7 @@
                 </dependencies>
                 <configuration>
                     <instrumentation>
+                        <ignoreTrivial>true</ignoreTrivial>
                     </instrumentation>
                     <formats>
                         <format>xml</format>
