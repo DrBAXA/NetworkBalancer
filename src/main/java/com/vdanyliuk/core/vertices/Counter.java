@@ -48,4 +48,9 @@ public class Counter implements Vertex {
     public long getOutgoing() {
         return reverse ? Aminus : Aplus;
     }
+
+    @Override
+    public String toString() {
+        return name + " " + number;
+    }
 }

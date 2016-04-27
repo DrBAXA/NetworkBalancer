@@ -61,4 +61,9 @@ public class ElectricNetworkBus implements Vertex {
 
         return outputToConsumers + reverseToSources;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }
