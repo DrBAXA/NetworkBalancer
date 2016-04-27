@@ -8,10 +8,8 @@ public class CounterTest {
 
     @Test
     public void testGetIncoming() throws Exception {
-        Counter counter = Counter.builder()
-                .name("A1")
-                .number("11")
-                .build();
+        Counter counter = new Counter("A1", "11");
+
 
         counter.setAplus(1000);
         counter.setAminus(500);
@@ -22,11 +20,7 @@ public class CounterTest {
 
     @Test
     public void testGetOutgoing() throws Exception {
-        Counter counter = Counter.builder()
-                .name("A1")
-                .number("11")
-                .reverse(true)
-                .build();
+        Counter counter = new Counter("A1", "11", true);
 
         counter.setAplus(1000);
         counter.setAminus(500);
