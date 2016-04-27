@@ -158,11 +158,14 @@ public class Network implements Balanced {
 
     /**
      * Get minimal sub network of this network that can be computed
-     * (i.e. all outside vertices has own incoming and outgoing values (is Counters) but not computed )
+     * (i.e. all outside vertices has own incoming and outgoing values (is Counters) but not computed)
      * and contains this vertex.
+     * Throws exception if specified vertex is Counter
      *
      * @param vertex that should be in result network
+     *
      * @return sub network of this network
+     *
      * @throws VertexIsSelfBalancedException if specified vertex has own values(i.e. is Counter)
      */
     public Network getComputableSubNetwork(Vertex vertex) throws VertexIsSelfBalancedException {
@@ -184,10 +187,17 @@ public class Network implements Balanced {
             }
         }
 
-        DirectedSubgraph subGraph = new DirectedSubgraph<>(networkGraph, verticesSet, edgesSet);
+        DirectedSubgraph<Vertex, Edge> subGraph = new DirectedSubgraph<>(networkGraph, verticesSet, edgesSet);
         return new Network(subGraph);
     }
 
+    /**
+     * Get all neighbors of specified vertex
+     *
+     * @param vertex neighbors of what will be returned
+     *
+     * @return collection of vertices that is neighbors of specified vertex
+     */
     protected Collection<Vertex> getNeighbors(Vertex vertex) {
         Set<Vertex> result = new HashSet<>();
 
