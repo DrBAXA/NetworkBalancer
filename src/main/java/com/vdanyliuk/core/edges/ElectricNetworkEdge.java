@@ -26,5 +26,8 @@ public class ElectricNetworkEdge extends Edge{
         return new ElectricNetworkEdge(vertex1, vertex2, ZERO_LINE_DATA);
     }
 
-
+    @Override
+    public String toString() {
+        return "";
+    }
 }
