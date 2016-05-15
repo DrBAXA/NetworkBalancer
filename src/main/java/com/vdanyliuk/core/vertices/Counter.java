@@ -24,6 +24,10 @@ public class Counter implements Vertex {
     @Setter
     private long Aminus;
 
+    public Counter(String number) {
+        this(number, number);
+    }
+
     public Counter(String name, String number) {
         this(name, number, false);
     }
@@ -51,6 +55,6 @@ public class Counter implements Vertex {
 
     @Override
     public String toString() {
-        return name + " " + number;
+        return name.equals(number) ? name : name + " " + number;
     }
 }
