@@ -71,4 +71,10 @@ public class ElectricNetworkBusTest {
     public void testGetOutgoing() throws Exception {
         assertEquals(1500, bus.getOutgoing());
     }
+
+    @Test
+    public void testToString() {
+        bus.setName("new Name");
+        assertEquals(bus.getName(), bus.toString());
+    }
 }
