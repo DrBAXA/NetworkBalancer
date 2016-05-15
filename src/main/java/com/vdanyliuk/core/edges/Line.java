@@ -5,13 +5,13 @@ package com.vdanyliuk.core.edges;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import com.vdanyliuk.core.vertices.Vertex;
+import lombok.Getter;
 
 
 /**
  * Represents electrical line
  */
-@Data
-@EqualsAndHashCode(callSuper = true)
+@Getter
 public class Line extends ElectricNetworkEdge {
 
     private String name;
