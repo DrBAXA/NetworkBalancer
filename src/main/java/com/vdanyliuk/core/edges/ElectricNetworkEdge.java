@@ -1,11 +1,9 @@
 package com.vdanyliuk.core.edges;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import com.vdanyliuk.core.vertices.Vertex;
+import lombok.Getter;
 
 @Getter
-@EqualsAndHashCode(callSuper = true)
 public class ElectricNetworkEdge extends Edge{
 
     public static final LineData ZERO_LINE_DATA = new LineData(0L, Long.MAX_VALUE);
@@ -27,7 +25,21 @@ public class ElectricNetworkEdge extends Edge{
     }
 
     @Override
-    public String toString() {
-        return "";
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        ElectricNetworkEdge that = (ElectricNetworkEdge) o;
+
+        return lineData.equals(that.lineData);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + lineData.hashCode();
+        return result;
     }
 }

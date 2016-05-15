@@ -7,6 +7,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import com.vdanyliuk.core.vertices.Vertex;
 
 import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertTrue;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ElectricNetworkEdgeTest {
@@ -46,5 +47,29 @@ public class ElectricNetworkEdgeTest {
         ElectricNetworkEdge edge = ElectricNetworkEdge.zeroConnection(vertex1, vertex2);
         assertEquals(0, edge.getLineData().getLineLength());
         assertEquals(Long.MAX_VALUE, edge.getLineData().getSection());
+    }
+
+    @Test
+    public void testEquals() {
+        assertTrue(new ElectricNetworkEdge(vertex1, vertex2, lineData)
+                .equals(new ElectricNetworkEdge(vertex1, vertex2, lineData)));
+
+        assertTrue(ElectricNetworkEdge.zeroConnection(vertex1, vertex2)
+                .equals(ElectricNetworkEdge.line(vertex1, vertex2, 0L, Long.MAX_VALUE)));
+    }
+
+    @Test
+    public void testHashCode() {
+        assertTrue(new ElectricNetworkEdge(vertex1, vertex2, lineData)
+                .equals(new ElectricNetworkEdge(vertex1, vertex2, lineData)));
+
+        assertEquals(new ElectricNetworkEdge(vertex1, vertex2, lineData).hashCode(),
+                new ElectricNetworkEdge(vertex1, vertex2, lineData).hashCode());
+
+        assertTrue(ElectricNetworkEdge.zeroConnection(vertex1, vertex2)
+                .equals(ElectricNetworkEdge.line(vertex1, vertex2, 0L, Long.MAX_VALUE)));
+
+        assertEquals(ElectricNetworkEdge.zeroConnection(vertex1, vertex2).hashCode(),
+                ElectricNetworkEdge.line(vertex1, vertex2, 0L, Long.MAX_VALUE).hashCode());
     }
 }

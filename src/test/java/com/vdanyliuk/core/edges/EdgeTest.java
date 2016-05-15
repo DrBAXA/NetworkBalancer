@@ -6,6 +6,9 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertFalse;
+import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 
@@ -48,4 +51,24 @@ public class EdgeTest {
 
         assertThat(testEdge.getVertices(), containsInAnyOrder(vertex1, vertex2));
     }
+
+    @Test
+    public void equalsTest() {
+        assertTrue(new Edge(vertex1, vertex2){}.equals(new Edge(vertex1, vertex2) {
+        }));
+
+        assertTrue(new Edge(vertex1, vertex2){}.equals(ElectricNetworkEdge.zeroConnection(vertex1, vertex2)));
+
+        assertFalse(new Edge(vertex1, vertex2){}.equals(new Edge(vertex2, vertex1){}));
+    }
+
+    @Test
+    public void hashCodeTest() {
+        assertTrue(new Edge(vertex1, vertex2){}.equals(new Edge(vertex1, vertex2) {
+        }));
+
+        assertEquals(new Edge(vertex1, vertex2){}.hashCode(), (new Edge(vertex1, vertex2) {
+        }.hashCode()));
+    }
+
 }
